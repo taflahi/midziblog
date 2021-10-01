@@ -8,6 +8,7 @@ jobs:
     docker:
       - image: buildkite/puppeteer:v1.15.0
     steps:
+      - run: htmlproofer --external_only --check_html --url_ignore "/example.org/" ./public
       - attach_workspace:
           at: .
       - run: npm install percy
@@ -18,11 +19,6 @@ workflows:
     jobs:
       - hugo/build:
           version: "0.88.1"
-          html-proofer: 
-            - check-html: true
-            - external_only: true
-            - url_ignore: "/example.org/"
-            - path: ./public
       - snapshot:
           requires:
             - hugo/build
