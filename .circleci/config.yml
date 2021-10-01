@@ -18,7 +18,11 @@ workflows:
     jobs:
       - hugo/build:
           version: "0.88.1"
-          html-proofer: true
+          html-proofer: 
+            - check-html: true
+            - external_only: true
+            - url_ignore: "/example.org/"
+            - path: ./public
       - snapshot:
           requires:
             - hugo/build
