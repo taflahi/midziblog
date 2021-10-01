@@ -19,6 +19,7 @@ workflows:
     jobs:
       - hugo/build:
           version: "0.88.1"
+          html-proofer: false
       - snapshot:
           requires:
             - hugo/build
