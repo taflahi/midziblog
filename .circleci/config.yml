@@ -1,5 +1,16 @@
 version: 2.1
 
+parameters:
+  external_only:
+    type: boolean
+    default: true
+  check-html:
+    type: boolean
+    default: true
+  url-ignore:
+    type: string
+    default: "/example.org/"
+
 orbs:
   hugo: circleci/hugo@1.2.2
 
@@ -19,8 +30,6 @@ workflows:
       - hugo/build:
           version: "0.88.1"
           html-proofer: true
-          htmlproofer-url-ignore: "/example.org/"
-          htmlproofer-http-status-ignore: "404"
       - snapshot:
           requires:
             - hugo/build
