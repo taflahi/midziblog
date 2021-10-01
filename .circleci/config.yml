@@ -18,7 +18,7 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-      - run: html-proofer --external_only --check_html --url_ignore "/example.org/" ./public
+      - run: htmlproofer --external_only --check_html --url_ignore "/example.org/" ./public
 
 workflows:
   main:
