@@ -1,16 +1,5 @@
 version: 2.1
 
-parameters:
-  external_only:
-    type: boolean
-    default: true
-  check-html:
-    type: boolean
-    default: true
-  url-ignore:
-    type: string
-    default: "/example.org/"
-
 orbs:
   hugo: circleci/hugo@1.2.2
 
@@ -23,13 +12,22 @@ jobs:
           at: .
       - run: npm install percy
       - run: PERCY_TOKEN=$PERCY_TOKEN npx percy snapshot ./public
+  proofer:
+    docker:
+      - image: quay.io/hugoguru/html-proofer:3.19.2
+    steps:
+      - attach_workspace:
+          at: .
+      - run: html-proofer --external_only --check_html --url_ignore "/example.org/" ./public
 
 workflows:
   main:
     jobs:
       - hugo/build:
           version: "0.88.1"
-          html-proofer: true
-      - snapshot:
+      - proofer:
           requires:
             - hugo/build
+      - snapshot:
+          requires:
+            - proofer
